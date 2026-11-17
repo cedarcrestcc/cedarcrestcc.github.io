@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/x-icon" href="https://wellspringcf.org/favicon.ico">
+  <title>Event Registrations - Admin Dashboard</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #eef2ff;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 2.5rem 1.5rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .dashboard {
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    /* Header styling */
+    .dashboard-header {
+      background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2);
+    }
+
+    .dashboard-header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .dashboard-header p {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .refresh-btn {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      transition: all 0.2s;
+    }
+
+    .refresh-btn:hover {
+      background-color: rgba(255, 255, 255, 0.35);
+    }
+
+    /* Event Metrics Section (Gauges / Cards) */
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .event-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .event-metric-card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 14px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .event-metric-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--primary);
+    }
+
+    .event-card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+
+    .event-stats-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .event-stats-row strong {
+      color: var(--text);
+    }
+
+    /* Gauge / Progress Bar Container */
+    .gauge-bar-bg {
+      width: 100%;
+      height: 10px;
+      background-color: var(--border);
+      border-radius: 9999px;
+      overflow: hidden;
+      margin-top: 0.5rem;
+    }
+
+    .gauge-bar-fill {
+      height: 100%;
+      background-color: var(--primary);
+      border-radius: 9999px;
+      transition: width 0.6s ease;
+    }
+
+    /* Registrants Table Section */
+    .table-container {
+      background: var(--card-bg);
+      border-radius: 14px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .table-toolbar {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.15s;
+    }
+
+    th:hover {
+      background-color: #e2e8f0;
+      color: var(--text);
+    }
+
+    th span.sort-icon {
+      font-size: 0.75rem;
+      margin-left: 4px;
+      opacity: 0.5;
+    }
+
+    td {
+      padding: 1rem 1.5rem;
+      font-size: 0.95rem;
+      border-bottom: 1px solid #f8fafc;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background-color: #f8fafc;
+    }
+
+    .badge-event {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-muted);
+    }
+
+    /* Pagination Bar Controls */
+    .pagination-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background-color: var(--card-bg);
+      border-top: 1px solid var(--border);
+    }
+
+    .pagination-btn {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .pagination-btn:hover:not(:disabled) {
+      background-color: var(--primary-hover);
+    }
+
+    .pagination-btn:disabled {
+      background-color: #cbd5e1;
+      cursor: not-allowed;
+    }
+
+    .page-info {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard">
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div>
+        <h1>Registration Admin Dashboard</h1>
+        <p>Live tracking of capacity, gauges, and participant records</p>
+      </div>
+      <button class="refresh-btn" onclick="loadDashboardData()">🔄 Refresh Data</button>
+    </div>
+
+    <!-- Event Specific Gauge Tracking -->
+    <div class="section-title">Event Capacity & Gauge Tracking</div>
+    <div class="event-metrics-grid" id="eventMetricsContainer">
+      <!-- Dynamically populated via JS -->
+    </div>
+
+    <!-- Registrants Table Section -->
+    <div class="table-container">
+      <div class="table-toolbar">
+        <div class="table-title">Registered Attendees</div>
+        <span class="page-info" id="totalCountBadge">0 Total Registrants</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th onclick="sortTable('index')"># <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('fullName')">Full Name <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('eventTitle')">Event Selected <span class="sort-icon">↕</span></th>
+            <th onclick="sortTable('timestamp')">Date Registered <span class="sort-icon">↕</span></th>
+          </tr>
+        </thead>
+        <tbody id="registrantsTableBody">
+          <tr>
+            <td colspan="4" class="empty-state">Loading participant records...</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination Bar -->
+      <div class="pagination-controls" id="paginationControls">
+        <button class="pagination-btn" id="prevBtn" onclick="changePage(-1)" disabled>Previous</button>
+        <span class="page-info" id="pageInfo">Page 1 of 1</span>
+        <button class="pagination-btn" id="nextBtn" onclick="changePage(1)" disabled>Next</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // CONFIGURATION
+    // Replace with your Google Apps Script Web App URL
+    // =========================================================================
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyV0SxDy6jUogcixytnv8hboXKARogbucenzVRsbYUND_XvOnlPdc4H5LLsYzwcWnxD/exec';
+
+    // Definition of your events and caps (Make sure IDs match your registration form backend)
+    const eventDefinitions = {
+      'event-1': { title: 'WH - TUE December 1, 2026', limit: 26 },
+      'event-2': { title: 'WH - WED December 2, 2026', limit: 26 },
+      'event-3': { title: 'EC - WED December 2, 2026', limit: 50 }
+    };
+
+    // State Variables
+    let allRegistrants = [];
+    let currentCounts = {};
+    let currentPage = 1;
+    const ITEMS_PER_PAGE = 10;
+    
+    // Sorting state
+    let currentSortColumn = 'timestamp';
+    let sortAscending = false;
+
+    async function loadDashboardData() {
+      try {
+        const response = await fetch(SCRIPT_URL + '?action=getCounts');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.status === 'success') {
+            currentCounts = data.counts || {};
+            allRegistrants = data.registrants || [];
+          }
+        }
+      } catch (err) {
+        console.warn("Could not reach live backend, falling back to empty display.", err);
+      }
+
+      renderEventMetrics();
+      sortRegistrantsData();
+      renderTablePage();
+    }
+
+    function renderEventMetrics() {
+      const container = document.getElementById('eventMetricsContainer');
+      container.innerHTML = '';
+
+      Object.keys(eventDefinitions).forEach(id => {
+        const evt = eventDefinitions[id];
+        const registeredCount = currentCounts[id] || 0;
+        const remaining = Math.max(0, evt.limit - registeredCount);
+        const percentage = Math.min(100, Math.round((registeredCount / evt.limit) * 100));
+
+        // Color coding for gauge bar
+        let fillColor = 'var(--primary)';
+        if (percentage >= 90) fillColor = 'var(--danger)';
+        else if (percentage >= 70) fillColor = 'var(--warning)';
+
+        const card = document.createElement('div');
+        card.className = 'event-metric-card';
+        card.innerHTML = `
+          <div class="event-card-title">${evt.title}</div>
+          <div class="event-stats-row">
+            <span>Filled: <strong>${registeredCount} / ${evt.limit}</strong></span>
+            <span><strong>${percentage}%</strong></span>
+          </div>
+          <div class="gauge-bar-bg">
+            <div class="gauge-bar-fill" style="width: ${percentage}%; background-color: ${fillColor};"></div>
+          </div>
+          <div class="event-stats-row" style="margin-top: 0.6rem; margin-bottom: 0;">
+            <span>Remaining spots:</span>
+            <strong>${remaining} spots available</strong>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function sortTable(column) {
+      if (currentSortColumn === column) {
+        sortAscending = !sortAscending;
+      } else {
+        currentSortColumn = column;
+        sortAscending = true;
+      }
+      sortRegistrantsData();
+      currentPage = 1;
+      renderTablePage();
+    }
+
+    function sortRegistrantsData() {
+      allRegistrants.sort((a, b) => {
+        let valA = a[currentSortColumn] || '';
+        let valB = b[currentSortColumn] || '';
+
+        if (currentSortColumn === 'timestamp') {
+          valA = new Date(valA).getTime() || 0;
+          valB = new Date(valB).getTime() || 0;
+        } else {
+          valA = String(valA).toLowerCase();
+          valB = String(valB).toLowerCase();
+        }
+
+        if (valA < valB) return sortAscending ? -1 : 1;
+        if (valA > valB) return sortAscending ? 1 : -1;
+        return 0;
+      });
+    }
+
+    function renderTablePage() {
+      const tableBody = document.getElementById('registrantsTableBody');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const pageInfo = document.getElementById('pageInfo');
+      const totalBadge = document.getElementById('totalCountBadge');
+
+      totalBadge.innerText = `${allRegistrants.length} Total Registrants`;
+
+      if (allRegistrants.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="4" class="empty-state">No registrations found yet.</td></tr>`;
+        pageInfo.innerText = `Page 1 of 1`;
+        prevBtn.disabled = true;
+        nextBtn.disabled = true;
+        return;
+      }
+
+      const totalPages = Math.ceil(allRegistrants.length / ITEMS_PER_PAGE);
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+      const pageItems = allRegistrants.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+
+      let rowsHtml = '';
+      pageItems.forEach((reg, index) => {
+        const globalIndex = startIndex + index + 1;
+        const dateObj = new Date(reg.timestamp);
+        const formattedDate = isNaN(dateObj) ? reg.timestamp : dateObj.toLocaleString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        rowsHtml += `
+          <tr>
+            <td>${globalIndex}</td>
+            <td><strong>${escapeHtml(reg.fullName)}</strong></td>
+            <td><span class="badge-event">${escapeHtml(reg.eventTitle || reg.eventId)}</span></td>
+            <td>${formattedDate}</td>
+          </tr>
+        `;
+      });
+
+      tableBody.innerHTML = rowsHtml;
+
+      pageInfo.innerText = `Page ${currentPage} of ${totalPages}`;
+      prevBtn.disabled = currentPage === 1;
+      nextBtn.disabled = currentPage === totalPages;
+    }
+
+    function changePage(direction) {
+      currentPage += direction;
+      renderTablePage();
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Initial load on startup
+    loadDashboardData();
+  </script>
+
+</body>
+</html>
