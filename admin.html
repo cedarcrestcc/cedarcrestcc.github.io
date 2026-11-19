@@ -48,7 +48,7 @@
       border-radius: 16px;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start; /* Vertically aligns button to the top of the title */
+      align-items: flex-start;
       gap: 1rem;
       margin-bottom: 2rem;
       box-shadow: 0 10px 15px -3px rgba(30, 64, 175, 0.2);
@@ -145,6 +145,7 @@
       border-radius: 10px;
       margin-bottom: 1.5rem;
       font-size: 0.9rem;
+      line-height: 1.5;
     }
 
     /* Event Metrics Section (SVG Gauges) */
@@ -268,17 +269,32 @@
       const refreshBtn = document.getElementById('refreshBtn');
       const refreshText = document.getElementById('refreshText');
       const errorBanner = document.getElementById('errorBanner');
-      
+
       refreshBtn.disabled = true;
       refreshBtn.classList.add('loading');
       refreshText.textContent = 'Refreshing...';
       errorBanner.style.display = 'none';
 
       try {
-        const response = await fetch(SCRIPT_URL + '?action=getCounts');
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        
-        const data = await response.json();
+        const endpoint = `${SCRIPT_URL}?action=getCounts&_t=${Date.now()}`;
+        const response = await fetch(endpoint, { redirect: 'follow' });
+
+        if (!response.ok) {
+          throw new Error(`Server responded with HTTP ${response.status}`);
+        }
+
+        const rawText = await response.text();
+        let data;
+        try {
+          data = JSON.parse(rawText);
+        } catch (parseErr) {
+          throw new Error('Script did not return valid JSON (check if doGet throws an error or requires Google login).');
+        }
+
+        if (data.status === 'error') {
+          throw new Error(data.message || 'Script returned an error status.');
+        }
+
         currentCounts = data.counts || {};
 
         // Fallback: calculate counts from registrants array if counts object is empty
@@ -293,7 +309,10 @@
 
       } catch (err) {
         console.error('Failed to load dashboard data:', err);
-        errorBanner.textContent = 'Unable to connect to live data source. Check your Google Apps Script deployment permissions ("Anyone").';
+        errorBanner.innerHTML = `
+          <strong>Unable to connect to live data source:</strong> ${err.message}<br>
+          <small>Verify that in Google Apps Script you clicked <strong>Deploy &gt; Manage deployments &gt; Edit &gt; New version</strong> and set <strong>Who has access</strong> to <strong>Anyone</strong>.</small>
+        `;
         errorBanner.style.display = 'block';
       } finally {
         refreshBtn.disabled = false;
@@ -328,9 +347,7 @@
           <div class="event-card-title">${evt.title}</div>
           <div class="gauge-wrapper">
             <svg class="gauge-svg" viewBox="0 0 180 100">
-              <!-- Background Track -->
               <path d="M 20 90 A 70 70 0 0 1 160 90" fill="none" stroke="#e2e8f0" stroke-width="14" stroke-linecap="round" />
-              <!-- Filled Progress Arc -->
               <path d="M 20 90 A 70 70 0 0 1 160 90" fill="none" stroke="${strokeColor}" stroke-width="14" stroke-linecap="round"
                     stroke-dasharray="${arcLength}" stroke-dashoffset="${dashOffset}" style="transition: stroke-dashoffset 0.6s ease;" />
             </svg>
