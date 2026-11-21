@@ -75,17 +75,11 @@ Complete Updated Code
       opacity: 0.9;
     }
 
-    .header-actions {
-      display: flex;
-      gap: 0.6rem;
-      flex-shrink: 0;
-    }
-
-    .header-btn {
+    .refresh-btn {
       background-color: rgba(255, 255, 255, 0.2);
       color: white;
       border: 1px solid rgba(255, 255, 255, 0.4);
-      padding: 0.65rem 1.1rem;
+      padding: 0.65rem 1.25rem;
       border-radius: 8px;
       font-size: 0.9rem;
       font-weight: 600;
@@ -99,33 +93,23 @@ Complete Updated Code
       flex-shrink: 0;
     }
 
-    .header-btn:hover {
+    .refresh-btn:hover {
       background-color: rgba(255, 255, 255, 0.35);
     }
 
-    .header-btn:disabled {
+    .refresh-btn:disabled {
       opacity: 0.75;
       cursor: not-allowed;
     }
 
-    .header-btn.print-primary {
-      background-color: #ffffff;
-      color: var(--primary);
-      border-color: #ffffff;
-    }
-
-    .header-btn.print-primary:hover {
-      background-color: #eff6ff;
-    }
-
-    .btn-icon {
+    .refresh-icon {
       width: 16px;
       height: 16px;
       flex-shrink: 0;
     }
 
     /* Spin animation when loading */
-    .header-btn.loading .refresh-icon {
+    .refresh-btn.loading .refresh-icon {
       animation: spin 1s linear infinite;
     }
 
@@ -134,7 +118,7 @@ Complete Updated Code
     }
 
     /* Mobile / iPhone styles */
-    @media (max-width: 650px) {
+    @media (max-width: 600px) {
       body {
         padding: 1.25rem 1rem;
       }
@@ -144,18 +128,18 @@ Complete Updated Code
       }
 
       .dashboard-header h2 {
-        font-size: 1.35rem;
+        font-size: 1.4rem;
       }
 
-      .header-btn {
+      .refresh-btn {
         padding: 0.6rem;
       }
 
-      .btn-text {
+      .refresh-text {
         display: none;
       }
 
-      .btn-icon {
+      .refresh-icon {
         width: 20px;
         height: 20px;
       }
@@ -250,308 +234,6 @@ Complete Updated Code
       font-size: 1rem;
       color: var(--text);
     }
-
-    .card-print-btn {
-      margin-top: 1rem;
-      width: 100%;
-      padding: 0.5rem 0.75rem;
-      background-color: #f1f5f9;
-      color: var(--primary);
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      transition: all 0.15s;
-    }
-
-    .card-print-btn:hover {
-      background-color: #dbeafe;
-      border-color: #93c5fd;
-    }
-
-    /* =====================================================================
-       PRINT PREVIEW MODAL & PRINTABLE CHECK-IN SHEET STYLES
-       ===================================================================== */
-    .print-modal-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.6);
-      z-index: 1000;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 2rem 1rem;
-      overflow-y: auto;
-    }
-
-    .print-modal-backdrop.open {
-      display: flex;
-    }
-
-    .print-modal {
-      background: white;
-      width: 100%;
-      max-width: 820px;
-      border-radius: 12px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
-      overflow: hidden;
-    }
-
-    .print-modal-bar {
-      background: #1e293b;
-      color: white;
-      padding: 0.9rem 1.25rem;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .print-modal-controls {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-    }
-
-    .print-select {
-      padding: 0.45rem 0.75rem;
-      border-radius: 6px;
-      border: 1px solid #475569;
-      background: #0f172a;
-      color: white;
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-
-    .modal-action-btn {
-      padding: 0.45rem 0.95rem;
-      border-radius: 6px;
-      border: none;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .modal-action-btn.primary {
-      background: #2563eb;
-      color: white;
-    }
-
-    .modal-action-btn.primary:hover {
-      background: #1d4ed8;
-    }
-
-    .modal-action-btn.secondary {
-      background: #475569;
-      color: white;
-    }
-
-    .modal-action-btn.secondary:hover {
-      background: #64748b;
-    }
-
-    /* Printable Sheet Content */
-    #printableSheet {
-      padding: 1.5rem 1.75rem;
-      background: white;
-      color: #000000;
-    }
-
-    .sheet-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      border-bottom: 2px solid #0f172a;
-      padding-bottom: 0.5rem;
-      margin-bottom: 0.9rem;
-    }
-
-    .sheet-header h1 {
-      font-size: 1.2rem;
-      font-weight: 800;
-      color: #0f172a;
-    }
-
-    .sheet-meta {
-      font-size: 0.8rem;
-      color: #334155;
-      text-align: right;
-    }
-
-    .sheet-event-section {
-      margin-bottom: 1rem;
-      break-inside: avoid-page;
-    }
-
-    .sheet-event-heading {
-      background: #f1f5f9;
-      border: 1px solid #94a3b8;
-      padding: 0.35rem 0.65rem;
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    /* Multi-column alphabetical check-in grid (2 columns keeps 50+ names within 1-2 pages) */
-    .checkin-columns {
-      column-count: 2;
-      column-gap: 1.25rem;
-    }
-
-    .checkin-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-    }
-
-    .checkin-table th {
-      background: #e2e8f0;
-      color: #0f172a;
-      font-weight: 700;
-      text-align: left;
-      padding: 0.3rem 0.45rem;
-      border: 1px solid #94a3b8;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-    }
-
-    .checkin-row {
-      display: flex;
-      align-items: center;
-      border: 1px solid #cbd5e1;
-      border-top: none;
-      padding: 0.32rem 0.5rem;
-      break-inside: avoid;
-      page-break-inside: avoid;
-      background: #ffffff;
-    }
-
-    .checkin-row:nth-child(even) {
-      background: #f8fafc;
-    }
-
-    .col-header-bar {
-      display: flex;
-      align-items: center;
-      background: #e2e8f0;
-      border: 1px solid #94a3b8;
-      padding: 0.3rem 0.5rem;
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      break-inside: avoid;
-    }
-
-    .cell-check {
-      width: 34px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .checkbox-box {
-      width: 15px;
-      height: 15px;
-      border: 1.5px solid #0f172a;
-      border-radius: 3px;
-      display: inline-block;
-      background: white;
-    }
-
-    .cell-num {
-      width: 26px;
-      flex-shrink: 0;
-      color: #475569;
-      font-size: 0.75rem;
-    }
-
-    .cell-name {
-      flex: 1;
-      font-weight: 600;
-      color: #0f172a;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .sheet-empty-note {
-      padding: 1rem;
-      border: 1px dashed #94a3b8;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      color: #475569;
-      text-align: center;
-    }
-
-    /* =====================================================================
-       PRINT MEDIA QUERY (Forces clean 1-2 page print output)
-       ===================================================================== */
-    @media print {
-      @page {
-        size: letter portrait;
-        margin: 0.4in;
-      }
-
-      body {
-        background: white !important;
-        padding: 0 !important;
-        display: block !important;
-      }
-
-      .dashboard {
-        display: none !important;
-      }
-
-      .print-modal-backdrop {
-        position: static !important;
-        display: block !important;
-        background: none !important;
-        padding: 0 !important;
-        overflow: visible !important;
-      }
-
-      .print-modal {
-        box-shadow: none !important;
-        max-width: 100% !important;
-        border-radius: 0 !important;
-      }
-
-      .print-modal-bar {
-        display: none !important;
-      }
-
-      #printableSheet {
-        padding: 0 !important;
-      }
-
-      .checkin-columns {
-        column-count: 2 !important;
-        column-gap: 0.35in !important;
-      }
-
-      .checkin-row {
-        padding: 0.24rem 0.4rem !important;
-        font-size: 0.8rem !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-
-      .sheet-event-heading,
-      .col-header-bar {
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
-      }
-    }
   </style>
 </head>
 <body>
@@ -563,26 +245,15 @@ Complete Updated Code
         <h2>Registrations Dashboard</h2>
         <p>Live registration capacity tracking for internal recollections</p>
       </div>
-      <div class="header-actions">
-        <button class="header-btn print-primary" onclick="openPrintModal('all')" title="Generate Printable Check-In Sheet">
-          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 6 2 18 2 18 9"></polyline>
-            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-            <rect x="6" y="14" width="12" height="8"></rect>
-          </svg>
-          <span class="btn-text">Print Check-In Sheet</span>
-        </button>
-
-        <button class="header-btn" id="refreshBtn" onclick="loadDashboardData()" aria-label="Refresh dashboard data" title="Refresh">
-          <svg class="btn-icon refresh-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-            <path d="M3 3v5h5"/>
-            <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
-            <path d="M16 16h5v5"/>
-          </svg>
-          <span class="btn-text" id="refreshText">Refresh</span>
-        </button>
-      </div>
+      <button class="refresh-btn" id="refreshBtn" onclick="loadDashboardData()" aria-label="Refresh dashboard data" title="Refresh">
+        <svg class="refresh-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+          <path d="M3 3v5h5"/>
+          <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+          <path d="M16 16h5v5"/>
+        </svg>
+        <span class="refresh-text" id="refreshText">Refresh</span>
+      </button>
     </div>
 
     <div id="errorBanner" class="error-banner"></div>
@@ -590,31 +261,6 @@ Complete Updated Code
     <!-- Event Specific Gauge Tracking -->
     <div class="section-title">Capacity by Event</div>
     <div class="event-metrics-grid" id="eventMetricsContainer"></div>
-  </div>
-
-  <!-- Printable Check-In Sheet Modal -->
-  <div class="print-modal-backdrop" id="printModalBackdrop">
-    <div class="print-modal">
-      <div class="print-modal-bar">
-        <div class="print-modal-controls">
-          <label for="eventFilterSelect" style="font-size: 0.85rem; font-weight: 600;">Event:</label>
-          <select id="eventFilterSelect" class="print-select" onchange="renderPrintableSheet()">
-            <option value="all">All Events</option>
-            <option value="event-1">WH - TUE December 1, 2026</option>
-            <option value="event-2">WH - WED December 2, 2026</option>
-            <option value="event-3">EC - WED December 2, 2026</option>
-          </select>
-        </div>
-        <div class="print-modal-controls">
-          <button class="modal-action-btn primary" onclick="window.print()">🖨️ Print (Max 2 Pages)</button>
-          <button class="modal-action-btn secondary" onclick="closePrintModal()">Close</button>
-        </div>
-      </div>
-
-      <div id="printableSheet">
-        <!-- Populated dynamically -->
-      </div>
-    </div>
   </div>
 
   <script>
@@ -627,7 +273,6 @@ Complete Updated Code
     };
 
     let currentCounts = {};
-    let allRegistrants = [];
 
     async function loadDashboardData() {
       const refreshBtn = document.getElementById('refreshBtn');
@@ -661,23 +306,12 @@ Complete Updated Code
 
         currentCounts = data.counts || {};
 
-        // Normalize registrants list if returned by the Apps Script
-        const rawList = Array.isArray(data.registrants) ? data.registrants : [];
-        allRegistrants = rawList.map(item => {
-          const evtId = item.eventId || item.event_id || '';
-          const fallbackTitle = eventDefinitions[evtId] ? eventDefinitions[evtId].title : evtId;
-          return {
-            fullName: String(item.fullName || item.name || item.FullName || '').trim(),
-            eventId: evtId,
-            eventTitle: item.eventTitle || item.event || item.Event || fallbackTitle || 'Unassigned'
-          };
-        }).filter(r => r.fullName.length > 0);
-
         // Fallback: calculate counts from registrants array if counts object is empty
-        if (Object.keys(currentCounts).length === 0 && allRegistrants.length > 0) {
-          allRegistrants.forEach(item => {
-            if (item.eventId) {
-              currentCounts[item.eventId] = (currentCounts[item.eventId] || 0) + 1;
+        if (Object.keys(currentCounts).length === 0 && Array.isArray(data.registrants)) {
+          data.registrants.forEach(item => {
+            const evtId = item.eventId || item.event_id || '';
+            if (evtId) {
+              currentCounts[evtId] = (currentCounts[evtId] || 0) + 1;
             }
           });
         }
@@ -738,143 +372,13 @@ Complete Updated Code
               <strong>${remaining} spots</strong>
             </div>
           </div>
-          <button class="card-print-btn" onclick="openPrintModal('${id}')">
-            🖨️ Print Check-In Sheet
-          </button>
         `;
         container.appendChild(card);
       });
     }
-
-    function openPrintModal(eventId = 'all') {
-      const select = document.getElementById('eventFilterSelect');
-      select.value = eventId;
-      renderPrintableSheet();
-      document.getElementById('printModalBackdrop').classList.add('open');
-    }
-
-    function closePrintModal() {
-      document.getElementById('printModalBackdrop').classList.remove('open');
-    }
-
-    function renderPrintableSheet() {
-      const selectedEventId = document.getElementById('eventFilterSelect').value;
-      const sheet = document.getElementById('printableSheet');
-      const todayStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-
-      const eventIdsToRender = selectedEventId === 'all'
-        ? Object.keys(eventDefinitions)
-        : [selectedEventId];
-
-      const totalVisible = allRegistrants.filter(r =>
-        selectedEventId === 'all' || r.eventId === selectedEventId
-      ).length;
-
-      let html = `
-        <div class="sheet-header">
-          <div>
-            <h1>Internal Recollection — Attendance Check-In</h1>
-          </div>
-          <div class="sheet-meta">
-            <div>Printed: ${todayStr}</div>
-            <div><strong>${totalVisible} Registered</strong></div>
-          </div>
-        </div>
-      `;
-
-      if (allRegistrants.length === 0) {
-        const hasCounts = Object.values(currentCounts).some(c => c > 0);
-        html += `
-          <div class="sheet-empty-note">
-            ${hasCounts
-              ? 'Counts loaded, but registrant names were not returned by the Google Apps Script. Make sure <code>doGet</code> includes the <code>registrants</code> array in its JSON response.'
-              : 'No registrants found yet.'}
-          </div>
-        `;
-        sheet.innerHTML = html;
-        return;
-      }
-
-      eventIdsToRender.forEach(evtId => {
-        const evt = eventDefinitions[evtId];
-        // Filter for this event and sort strictly alphabetically by name (A-Z)
-        const eventPeople = allRegistrants
-          .filter(r => r.eventId === evtId)
-          .sort((a, b) => a.fullName.localeCompare(b.fullName, undefined, { sensitivity: 'base' }));
-
-        if (selectedEventId === 'all' && eventPeople.length === 0) return;
-
-        html += `
-          <div class="sheet-event-section">
-            <div class="sheet-event-heading">
-              <span>${escapeHtml(evt.title)}</span>
-              <span>${eventPeople.length} / ${evt.limit} Registered</span>
-            </div>
-        `;
-
-        if (eventPeople.length === 0) {
-          html += `<div class="sheet-empty-note">No registrants for this event yet.</div>`;
-        } else {
-          // Split into 2 balanced alphabetical columns (Top-to-Bottom left column, then right column)
-          const mid = Math.ceil(eventPeople.length / 2);
-          const leftCol = eventPeople.slice(0, mid);
-          const rightCol = eventPeople.slice(mid);
-
-          const renderColumnTable = (list, startNum) => {
-            if (list.length === 0) return '<div></div>';
-            let colHtml = `
-              <div>
-                <div class="col-header-bar">
-                  <span class="cell-check">In</span>
-                  <span class="cell-num">#</span>
-                  <span class="cell-name">Full Name (A–Z)</span>
-                </div>
-            `;
-            list.forEach((person, idx) => {
-              colHtml += `
-                <div class="checkin-row">
-                  <span class="cell-check"><span class="checkbox-box"></span></span>
-                  <span class="cell-num">${startNum + idx}</span>
-                  <span class="cell-name">${escapeHtml(person.fullName)}</span>
-                </div>
-              `;
-            });
-            colHtml += `</div>`;
-            return colHtml;
-          };
-
-          html += `
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-              ${renderColumnTable(leftCol, 1)}
-              ${renderColumnTable(rightCol, mid + 1)}
-            </div>
-          `;
-        }
-
-        html += `</div>`;
-      });
-
-      sheet.innerHTML = html;
-    }
-
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    // Close modal when clicking outside the sheet
-    document.getElementById('printModalBackdrop').addEventListener('click', function(e) {
-      if (e.target === this) closePrintModal();
-    });
 
     loadDashboardData();
   </script>
 
 </body>
 </html>
-
