@@ -32,9 +32,9 @@
             color: var(--text);
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Aligns container to the top instead of vertical center */
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px; /* Controls the distance from the top edge (40px) */
         }
 
         .container {
@@ -57,7 +57,8 @@
             border-top-right-radius: 12px;
         }
 
-        .card-header h1 {
+        .card-header h1,
+        .card-header h2 {
             font-size: 1.75rem;
             font-weight: 700;
             color: white;
